@@ -1,18 +1,33 @@
 import React from "react";
 
-export default class Table extends React.Component{
+export default class Table extends React.Component {
 
-    constructor( props ){
-        super(props);
-        this.state = {
-            entries: this.props.entries,
-            fields: this.props.fields
-        }
+    render() {
+        const { fields, entries } = this.props;
+        const headerCells = fields.map(field => {
+            return (
+                <th key={field.name}>
+                    <span>{field.displayName}</span>
+                </th>
+            );
+        });
+        const rows = entries.map(entry => {
+            const tds = fields.map(field => {
+                return (
+                    <td key={field.name}>
+                        <span>{entry[field.name]}</span>
+                    </td>
+                );
+            });
+            return <tr key={entry.id}>{tds}</tr>;
+        });
+        return (
+            <table>
+                <thead>
+                    <tr>{headerCells}</tr>
+                </thead>
+                <tbody>{rows}</tbody>
+            </table>
+        );
     }
-
-    render(){
-        return <h1>Table goes here</h1>;
-    }
-
-
 }
